@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Layout;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -33,37 +34,22 @@ public class NoteListAdapter extends ArrayAdapter<Note>
     public View getView(int position, View convertView,ViewGroup parent) {
         Note note = getItem(position);
         if(convertView == null){
-            LinearLayout layout = new LinearLayout(getContext());
-            layout.setLayoutParams(new AbsListView.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
-            layout.setOrientation(LinearLayout.HORIZONTAL);
-
-            TextView text = new TextView(getContext());
-            text.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT,1f));
-            text.setId(1);
-            layout.addView(text);
-
-            Button button = new Button(getContext());
-            button.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT));
-            button.setId(2);
-            layout.addView(button);
-
-            convertView = layout;
+            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.note_list_item, parent, false);
         }
 
-        TextView text = (TextView) convertView.findViewById(1);
+        TextView text = (TextView) convertView.findViewById(R.id.note_list_item_text);
         text.setText(note.getContent());
 
-        Button button = (Button) convertView.findViewById(2);
-        button.setText("X");
+        Button button = (Button) convertView.findViewById(R.id.note_list_item_button);
         button.setTag(position);
-        button.setOnClickListener(new View.OnClickListener() {
 
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Integer index = (Integer) v.getTag();
                 notes.remove(index.intValue());
                 notifyDataSetChanged();
-
             }
         });
 
