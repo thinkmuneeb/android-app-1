@@ -9,13 +9,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.App1">
-        <activity android:name=".MainActivity">
+
+        <activity android:name="NotesActivity"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.example.app1.MainActivity"
+            android:label="ListActivity"
+            android:parentActivityName="com.example.app1.NotesActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.app1.NotesActivity" />
+        </activity>
+
     </application>
+
+
 
 </manifest>

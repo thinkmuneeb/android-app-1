@@ -1,20 +1,29 @@
 package com.example.app1;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
-
-    ArrayList<Note> notes;
-
+public class MainActivity extends Activity
+{
+	ArrayList<Note> notes;
+	int selectedItem;
+	
+	EditText text;
+	ListView list;
+	NoteListAdapter adapter;
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -22,26 +31,82 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         notes = (ArrayList<Note>) intent.getSerializableExtra("list");
-
+        
         if(notes == null){
-            notes = new ArrayList<Note>();
-            notes.add(new Note("Pakistan"));
-            notes.add(new Note("India"));
+        	notes = new ArrayList<Note>();
+			notes.add(new Note("Pakistan"));
+			notes.add(new Note("India"));
         }
-
+        
+        selectedItem = -1;        
         createView();
     }
+    
+    private EditText createText(){
+    	text = new EditText(this);
+    	text.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
+    	text.setHint("Filter");
+    	text.addTextChangedListener(new TextWatcher(){
 
-    private void createView(){
-        ListView view = new ListView(this);
-        view.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-        String [] array = new String[notes.size()];
-        for(int i=0; i < notes.size(); i++){
-            array[i] = notes.get(i).getContent();
-        }
-        NoteListAdapter adapter = new NoteListAdapter(this,notes);
-        //ArrayAdapter adapter = new ArrayAdapter(this,R.layout.simple_list,array);
-        view.setAdapter(adapter);
-        setContentView(view);
+			@Override
+			public void afterTextChanged(Editable arg0) { }
+
+			@Override
+			public void beforeTextChanged(CharSequence arg0, int arg1,int arg2, int arg3) { }
+
+			@Override
+			public void onTextChanged(CharSequence text, int start, int before,int count) {
+				adapter.getFilter().filter(text.toString());
+			}
+    		
+    	});
+    	return text;
     }
+    
+    private ListView createList(){
+    	list = new ListView(this);
+    	list.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+    	    	
+        adapter = new NoteListAdapter(this,notes);
+    	list.setAdapter(adapter);    	
+    	
+    	list.setOnItemClickListener(new OnItemClickListener() {
+       		public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
+    			selectedItem = position;
+    			prepareResult();
+    			finish();
+    		}
+		});
+    	
+    	return list;
+    }
+    
+    private void createView(){
+    	LinearLayout layout = new LinearLayout(this);
+    	layout.setOrientation(LinearLayout.VERTICAL);
+    	layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
+    	layout.setFocusable(true);
+    	layout.setFocusableInTouchMode(true);
+    	
+    	
+    	layout.addView(createText());
+    	layout.addView(createList());
+    	
+    	setContentView(layout);
+    }
+    
+    private void prepareResult(){
+    	Intent intent = new Intent();
+    	intent.putExtra("list", notes);
+    	intent.putExtra("selecteditemindex", selectedItem);
+    	setResult(RESULT_OK, intent);
+    }
+    
+    @Override
+    public void onBackPressed() {
+    	prepareResult();
+    	super.onBackPressed();
+    }
+    
+    
 }
