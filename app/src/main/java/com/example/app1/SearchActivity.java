@@ -34,11 +34,12 @@ public class SearchActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         notes = (ArrayList<Note>) intent.getSerializableExtra("list");
-        
+
+        /// @dev this is used if some ones opens this screen directly from code. He will not receive this data intent.getSerializableExtra("list"); so he will render this other given data.
         if(notes == null){
         	notes = new ArrayList<Note>();
-			notes.add(new Note("Pakistan"));
-			notes.add(new Note("India"));
+			notes.add(new Note("BMW"));
+			notes.add(new Note("TESLA"));
         }
         
         selectedItem = -1;        
@@ -69,12 +70,12 @@ public class SearchActivity extends AppCompatActivity
     	list = new ListView(this);
     	list.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
     	    	
-        adapter = new NoteListAdapter(this,notes);
+        adapter = new NoteListAdapter(this,notes, false);
     	list.setAdapter(adapter);    	
     	
     	list.setOnItemClickListener(new OnItemClickListener() {
        		public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
-				Log.d("muneebtag", "onItemClick: " + position);
+				Log.d("TAG", "onItemClick: " + position);
        			selectedItem = position;
 //    			prepareResult();
 //    			finish();

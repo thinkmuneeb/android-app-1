@@ -29,13 +29,15 @@ import android.view.LayoutInflater;
 public class NoteListAdapter extends ArrayAdapter<Note> implements Filterable
 {
    private ArrayList<Note> notes;
-   private ArrayList<Note> filteredNotes;
+    private ArrayList<Note> filteredNotes;
+    private boolean showCheckBoxes;
    private Filter filter;
 
-   public NoteListAdapter(Context context,ArrayList<Note> notes){
+   public NoteListAdapter(Context context,ArrayList<Note> notes, boolean showCheckBoxes){
       super(context,0,notes);
       this.notes = notes;
       this.filteredNotes = notes;
+      this.showCheckBoxes = showCheckBoxes;
    }
    
    public Note getItem(int position){
@@ -51,32 +53,43 @@ public class NoteListAdapter extends ArrayAdapter<Note> implements Filterable
       	  
       if(convertView == null){
          LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-         convertView = inflater.inflate(R.layout.note_list_item,parent,false);
+
+         if(this.showCheckBoxes)
+             convertView = inflater.inflate(R.layout.note_list_item_check_box, parent, false);
+         else {
+             convertView = inflater.inflate(R.layout.note_list_item, parent, false);
+         }
       }
 
       TextView text = (TextView) convertView.findViewById(R.id.note_list_item_text);
       text.setText(note.getContent());
-      
-      CheckBox check = (CheckBox) convertView.findViewById(R.id.note_list_item_check);
-      check.setChecked(note.isImportant());
-      check.setOnClickListener(new OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               Log.i("muneebtag", "onClick check: " + position);
-               //Note note = (Note) v.getTag();
-               //notes.remove(note);
-               //filteredNotes.remove(note);
-               //notifyDataSetChanged();
 
-           }
-       });
+      if(this.showCheckBoxes) {
+          CheckBox check = (CheckBox) convertView.findViewById(R.id.note_list_item_check);
+          check.setChecked(note.isImportant());
+          check.setOnClickListener(new OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  Log.i("TAG", "onClick checkbox: " + position);
+                  filteredNotes.get(position).setImportance(true);
+//               notifyDataSetChanged(); // it is important to call
+
+//               filteredNotes.add(new Note("Hi."));
+                  //Note note = (Note) v.getTag();
+                  //notes.remove(note);
+                  //filteredNotes.remove(note);
+                  //notifyDataSetChanged();
+
+              }
+          });
+      }
 
       Button button = (Button) convertView.findViewById(R.id.note_list_item_button);
       button.setTag(note);
       button.setOnClickListener(new OnClickListener() {
          @Override
          public void onClick(View v) {
-             Log.i("muneebtag", "onClick X button: " + position);
+             Log.i("TAG", "onClick X button: " + position);
             //Note note = (Note) v.getTag();
             //notes.remove(note);
             //filteredNotes.remove(note);

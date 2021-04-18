@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -119,6 +120,7 @@ public class NotesActivity extends AppCompatActivity
        	if(requestCode == REQUEST_CODE){
        		if(resultCode == RESULT_OK){
        			notes = (ArrayList<Note>) data.getSerializableExtra("list");
+                Log.d("TAG", "onActivityResult: " + notes.size());
        			
        			int selectedItemIndex = data.getIntExtra("selecteditemindex", -1);
        			if(selectedItemIndex != -1){
