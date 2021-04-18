@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -13,9 +14,11 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
 
-public class MainActivity extends Activity
+public class SearchActivity extends AppCompatActivity
 {
 	ArrayList<Note> notes;
 	int selectedItem;
@@ -58,7 +61,6 @@ public class MainActivity extends Activity
 			public void onTextChanged(CharSequence text, int start, int before,int count) {
 				adapter.getFilter().filter(text.toString());
 			}
-    		
     	});
     	return text;
     }
@@ -72,9 +74,10 @@ public class MainActivity extends Activity
     	
     	list.setOnItemClickListener(new OnItemClickListener() {
        		public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
-    			selectedItem = position;
-    			prepareResult();
-    			finish();
+				Log.d("muneebtag", "onItemClick: " + position);
+       			selectedItem = position;
+//    			prepareResult();
+//    			finish();
     		}
 		});
     	

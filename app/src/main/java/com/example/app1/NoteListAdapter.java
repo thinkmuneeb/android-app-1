@@ -59,21 +59,32 @@ public class NoteListAdapter extends ArrayAdapter<Note> implements Filterable
       
       CheckBox check = (CheckBox) convertView.findViewById(R.id.note_list_item_check);
       check.setChecked(note.isImportant());
+      check.setOnClickListener(new OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Log.i("muneebtag", "onClick check: " + position);
+               //Note note = (Note) v.getTag();
+               //notes.remove(note);
+               //filteredNotes.remove(note);
+               //notifyDataSetChanged();
+
+           }
+       });
 
       Button button = (Button) convertView.findViewById(R.id.note_list_item_button);
       button.setTag(note);
       button.setOnClickListener(new OnClickListener() {
-
          @Override
          public void onClick(View v) {
-            Note note = (Note) v.getTag();
-            notes.remove(note);
-            filteredNotes.remove(note);
-            //notes.remove(index.intValue());  
-            notifyDataSetChanged();
+             Log.i("muneebtag", "onClick X button: " + position);
+            //Note note = (Note) v.getTag();
+            //notes.remove(note);
+            //filteredNotes.remove(note);
+            //notifyDataSetChanged();
 
          }
       });
+
 
       return convertView;
    }

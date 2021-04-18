@@ -17,7 +17,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.app1.MainActivity"
+        <activity android:name="com.example.app1.SearchActivity"
             android:label="ListActivity"
             android:parentActivityName="com.example.app1.NotesActivity" >
             <meta-data

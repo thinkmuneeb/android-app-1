@@ -10,7 +10,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.CheckBox;
 
-public class NotesActivity extends Activity
+import androidx.appcompat.app.AppCompatActivity;
+
+public class NotesActivity extends AppCompatActivity
 {
 	ArrayList<Note> notes;
 	Note currentNote;
@@ -29,8 +31,11 @@ public class NotesActivity extends Activity
         textArea = (EditText) findViewById(R.id.text_area);
         importanceCheck = (CheckBox) findViewById(R.id.importance_check);
         notes = new ArrayList<Note>();
+        notes.add(new Note("Pakistan"));
+        notes.add(new Note("India"));
+        notes.add(new Note("USA"));
     }
-    
+
     public void onSaveInstanceState(Bundle savedInstanceState){
         super.onSaveInstanceState(savedInstanceState);
 
@@ -98,7 +103,7 @@ public class NotesActivity extends Activity
     }
      
     private void listNotes(){
-    	   Intent intent = new Intent(this, MainActivity.class);
+    	   Intent intent = new Intent(this, SearchActivity.class);
     	   intent.putExtra("list",notes);
     	   startActivityForResult(intent,REQUEST_CODE);
     }
