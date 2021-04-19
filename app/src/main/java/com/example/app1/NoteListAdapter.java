@@ -89,12 +89,11 @@ public class NoteListAdapter extends ArrayAdapter<Note> implements Filterable
       button.setOnClickListener(new OnClickListener() {
          @Override
          public void onClick(View v) {
-             Log.i("TAG", "onClick X button: " + position);
-            //Note note = (Note) v.getTag();
-            //notes.remove(note);
+            Log.i("TAG", "onClick X button: " + position);
+            Note note = (Note) v.getTag();
+            notes.remove(note);
             //filteredNotes.remove(note);
-            //notifyDataSetChanged();
-
+            notifyDataSetChanged();
          }
       });
 

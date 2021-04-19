@@ -4,21 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-<CheckBox
-    android:id="@+id/importance_check"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"    
-    style="?android:attr/starStyle"
-    android:onClick="checkboxClick" 
-    />
-<EditText
-    android:id="@+id/text_area"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"
-    android:hint="Notes"
-    android:gravity="top"
-    />
+    <ListView
+        android:id="@+id/listViewCountries"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </ListView>
 <LinearLayout 
     android:orientation="horizontal"
     android:layout_width="match_parent"

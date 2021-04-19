@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.CheckBox;
 
@@ -21,8 +22,11 @@ public class NotesActivity extends AppCompatActivity
 	
 	EditText textArea;
 	CheckBox importanceCheck;
-	
-	final int REQUEST_CODE = 1;
+
+    ListView listViewCountries;
+    NoteListAdapter adapter;
+
+    final int REQUEST_CODE = 1;
 
     /** Called when the activity is first created. */
     @Override
@@ -30,12 +34,25 @@ public class NotesActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        textArea = (EditText) findViewById(R.id.text_area);
-        importanceCheck = (CheckBox) findViewById(R.id.importance_check);
+        listViewCountries = (ListView) findViewById(R.id.listViewCountries);
+
         notes = new ArrayList<Note>();
-        notes.add(new Note("Pakistan"));
-        notes.add(new Note("India"));
-        notes.add(new Note("USA"));
+        notes.add(new Note("Pakistan", true));
+        notes.add(new Note("India", true));
+        notes.add(new Note("USA", true));
+        notes.add(new Note("Canada", false));
+        notes.add(new Note("Maldives", false));
+        notes.add(new Note("Afghanistan", false));
+        notes.add(new Note("Nigeria", false));
+
+        selectedNotes = new ArrayList<Note>();
+        for(Note n: notes){
+            if(n.isImportant())
+                selectedNotes.add(n);
+        }
+        adapter = new NoteListAdapter(this,selectedNotes, false);
+        listViewCountries.setAdapter(adapter);
+
     }
 
     public void onSaveInstanceState(Bundle savedInstanceState){
@@ -118,22 +135,28 @@ public class NotesActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
        	super.onActivityResult(requestCode, resultCode, data);
+       	if(requestCode != RESULT_CANCELED){
+            Log.d("TAG", "onActivityResult: requestCode != RESULT_CANCELED");
+        }
        	if(requestCode == REQUEST_CODE){
        		if(resultCode == RESULT_OK){
        			notes = (ArrayList<Note>) data.getSerializableExtra("list");
+       			adapter.notifyDataSetChanged();
 
        			selectedNotes = new ArrayList<Note>();
        			for(Note n: notes){
        			    if(n.isImportant())
-       			        selectedNotes.add(new Note("Hello"));
+       			        selectedNotes.add(n);
                 }
+                adapter = new NoteListAdapter(this,selectedNotes, false);
+                listViewCountries.setAdapter(adapter);
 
-                Log.d("TAG", "onActivityResult: selectedNotes size" + selectedNotes.size());
-       			
-       			int selectedItemIndex = data.getIntExtra("selecteditemindex", -1);
-       			if(selectedItemIndex != -1){
-       				setNote(selectedItemIndex);       				
-       			}
+                Log.d("TAG", "onActivityResult: selectedNotes size: " + selectedNotes.size());
+
+//       			int selectedItemIndex = data.getIntExtra("selecteditemindex", -1);
+//       			if(selectedItemIndex != -1){
+//       				setNote(selectedItemIndex);
+//       			}
        		}
        	}
     }

@@ -19,6 +19,11 @@ public class Note implements Serializable{
 		init();
 		this.content = content;
 	}
+	public Note(String content, boolean isImportant){
+		init();
+		this.content = content;
+		this.important = isImportant;
+	}
 	
 	private void init(){
 		this.id = UUID.randomUUID().toString();		
