@@ -71,7 +71,7 @@ public class NoteListAdapter extends ArrayAdapter<Note> implements Filterable
               @Override
               public void onClick(View v) {
                   Log.i("TAG", "onClick checkbox: " + position);
-                  filteredNotes.get(position).setImportance(true);
+                  filteredNotes.get(position).setImportance(!filteredNotes.get(position).isImportant());
 //               notifyDataSetChanged(); // it is important to call
 
 //               filteredNotes.add(new Note("Hi."));

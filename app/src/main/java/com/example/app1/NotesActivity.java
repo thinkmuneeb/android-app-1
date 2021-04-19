@@ -16,13 +16,14 @@ import androidx.appcompat.app.AppCompatActivity;
 public class NotesActivity extends AppCompatActivity
 {
 	ArrayList<Note> notes;
+    ArrayList<Note> selectedNotes;
 	Note currentNote;
 	
 	EditText textArea;
 	CheckBox importanceCheck;
 	
-	final int REQUEST_CODE = 1; 
-	
+	final int REQUEST_CODE = 1;
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -120,7 +121,14 @@ public class NotesActivity extends AppCompatActivity
        	if(requestCode == REQUEST_CODE){
        		if(resultCode == RESULT_OK){
        			notes = (ArrayList<Note>) data.getSerializableExtra("list");
-                Log.d("TAG", "onActivityResult: " + notes.size());
+
+       			selectedNotes = new ArrayList<Note>();
+       			for(Note n: notes){
+       			    if(n.isImportant())
+       			        selectedNotes.add(new Note("Hello"));
+                }
+
+                Log.d("TAG", "onActivityResult: selectedNotes size" + selectedNotes.size());
        			
        			int selectedItemIndex = data.getIntExtra("selecteditemindex", -1);
        			if(selectedItemIndex != -1){

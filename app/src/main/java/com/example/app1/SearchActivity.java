@@ -70,7 +70,7 @@ public class SearchActivity extends AppCompatActivity
     	list = new ListView(this);
     	list.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
     	    	
-        adapter = new NoteListAdapter(this,notes, false);
+        adapter = new NoteListAdapter(this,notes, true);
     	list.setAdapter(adapter);    	
     	
     	list.setOnItemClickListener(new OnItemClickListener() {
