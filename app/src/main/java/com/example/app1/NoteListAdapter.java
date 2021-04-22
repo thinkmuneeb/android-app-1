@@ -6,6 +6,7 @@ import java.io.*;
 import android.content.Context;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Layout;
 import android.util.Log;
@@ -26,6 +27,8 @@ import android.widget.AbsListView;
 import android.widget.Toast;
 import android.view.LayoutInflater;
 
+import androidx.annotation.RequiresApi;
+
 public class NoteListAdapter extends ArrayAdapter<Note> implements Filterable
 {
    private ArrayList<Note> notes;
@@ -44,11 +47,12 @@ public class NoteListAdapter extends ArrayAdapter<Note> implements Filterable
 	   return filteredNotes.get(position);
    }
       
-	public int getCount() {
+   public int getCount() {
 		return filteredNotes.size();
 	}
 
-   public View getView(int position, View convertView,ViewGroup parent) {
+   @RequiresApi(api = Build.VERSION_CODES.N)
+   public View getView(int position, View convertView, ViewGroup parent) {
       Note note = getItem(position);
       	  
       if(convertView == null){
@@ -62,7 +66,7 @@ public class NoteListAdapter extends ArrayAdapter<Note> implements Filterable
       }
 
       TextView text = (TextView) convertView.findViewById(R.id.note_list_item_text);
-      text.setText(note.getContent());
+      text.setText(note.getContent() +  " " + note.getTime());
 
       if(this.showCheckBoxes) {
           CheckBox check = (CheckBox) convertView.findViewById(R.id.note_list_item_check);

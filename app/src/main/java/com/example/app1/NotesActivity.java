@@ -37,13 +37,13 @@ public class NotesActivity extends AppCompatActivity
         listViewCountries = (ListView) findViewById(R.id.listViewCountries);
 
         notes = new ArrayList<Note>();
-        notes.add(new Note("Pakistan", true));
-        notes.add(new Note("India", true));
-        notes.add(new Note("USA", true));
-        notes.add(new Note("Canada", false));
-        notes.add(new Note("Maldives", false));
-        notes.add(new Note("Afghanistan", false));
-        notes.add(new Note("Nigeria", false));
+        notes.add(new Note("Pakistan", true, 0));
+        notes.add(new Note("India", true, 1));
+        notes.add(new Note("USA", true, 10));
+        notes.add(new Note("Canada", false, 8));
+        notes.add(new Note("Maldives", false, 7));
+        notes.add(new Note("Afghanistan", false, 2));
+        notes.add(new Note("Nigeria", false, 6));
 
         selectedNotes = new ArrayList<Note>();
         for(Note n: notes){

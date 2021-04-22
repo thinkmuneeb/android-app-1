@@ -22,6 +22,7 @@
     android:layout_height="wrap_content"
     android:text="Save"
     android:onClick="buttonClick"
+    android:visibility="gone"
     />
 <Button
     android:id="@+id/button_new"
@@ -29,6 +30,7 @@
     android:layout_height="wrap_content"
     android:text="New"
     android:onClick="buttonClick"
+    android:visibility="gone"
     />
 <Button
     android:id="@+id/button_list"
